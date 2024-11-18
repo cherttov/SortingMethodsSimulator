@@ -1,14 +1,15 @@
 from typing import Callable
+import asyncio
 
 
 def BubbleSort():
-    pass
+    return "Bubble Sort - works -"
 
 def SelectionSort():
-    pass
+    return "Selection Sort - works -"
 
 def InsertionSort():
-    pass
+    return "Insertion Sort - works -"
 
 
 sorting_methods : dict[str, Callable[[], dict[int, int]]]= {

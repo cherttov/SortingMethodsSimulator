@@ -1,13 +1,13 @@
 import random
 import time
-from sorts import sorting_methods
-from design import Ui_MainWindow
+from sorts import sorting_methods # SORTING
+from design import Ui_MainWindow # DESIGN
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
 class SortingApp(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.sample_size = 480
+        self.sample_size = 10
         self.data = self.data_generator(self.sample_size)
         self.setupUi(self)
 
@@ -26,19 +26,22 @@ class SortingApp(QMainWindow, Ui_MainWindow):
     
     # Matches Sorting Method and Runs It
     def run_simulation(self, amount: int):
+        # Initiates Start Time & Checks What Option Is Chosen
         chosen_sort = self.comboBox.currentText()
         start_time = time.time()
-
+        # Runs Selected Sort Function in sorts.py
         sort = sorting_methods.get(chosen_sort, None)
         if sort is not None:
-            sort() # WILL RETURN NUMBER OF ITERATIONS AS WELL!
+            sorted_dict = sort(self.data)[0]
+            iterations = sort(self.data)[1]
         else:
             print("An error has occured: Sorting method not found.")
-
-        elapsed_time = time.time() - start_time
-        self.time_var.setText(f"TIME: {elapsed_time:.4f}s")
+        # Calculates Final Time & Outputs Info About the Run
+        final_time = time.time() - start_time
+        self.MethodChosen.setText(f"{chosen_sort}")
+        self.time_var.setText(f"TIME: {final_time:.4f}s")
         self.sample_var.setText(f"SAMPLE SIZE: {amount}")
-        self.iterations_var.setText(f"ITERATIONS: {None}")
+        self.iterations_var.setText(f"ITERATIONS: {iterations}")
     
     # Generates Lines Representing The Data We Generated
     def lines_generator(self) -> None:

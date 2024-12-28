@@ -2,7 +2,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QPainter, QColor
 
-
+# idfk wtf is happening with the naming there, I am too lazy to fix that
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         # Window / Root
@@ -14,21 +14,28 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
 
-        # Method Chosen Text
-        self.MethodChosen = QtWidgets.QLabel(parent=self.centralwidget)
+        # Font Settings
         font = QtGui.QFont()
         font.setPointSize(16)
         font.setBold(False)
+
+        # Method Chosen Text
+        self.MethodChosen = QtWidgets.QLabel(parent=self.centralwidget)
         self.MethodChosen.setFont(font)
         self.MethodChosen.setObjectName("MethodChosen")
         self.gridLayout.addWidget(self.MethodChosen, 0, 0, 1, 1)
 
-        # Methods Combo Box
-        self.comboBox = QtWidgets.QComboBox(parent=self.centralwidget)
-        self.comboBox.setObjectName("comboBox")
-        self.gridLayout.addWidget(self.comboBox, 0, 3, 1, 1)
+        # Randomize Push Button
+        self.RandomizeButton = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.RandomizeButton.setObjectName("generatePushButton")
+        self.gridLayout.addWidget(self.RandomizeButton, 0, 2, 1, 1)
 
-        # Simulation Visual Frame
+        # Methods Combo Box
+        self.ComboBox = QtWidgets.QComboBox(parent=self.centralwidget)
+        self.ComboBox.setObjectName("comboBox")
+        self.gridLayout.addWidget(self.ComboBox, 0, 3, 1, 1)
+
+        # # Simulation Visual Frame
         # self.frame = QtWidgets.QFrame(parent=self.centralwidget)
         # self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         # self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -83,6 +90,7 @@ class Ui_MainWindow(object):
         self.sample_var.setText(_translate("MainWindow", "SAMPLE SIZE:"))
         self.iterations_var.setText(_translate("MainWindow", "ITERATIONS:"))
         self.pushButton.setText(_translate("MainWindow", "SIMULATE"))
+        self.RandomizeButton.setText(_translate("MainWindow", "RANDOMIZE"))
 
 class VisualFrame(QWidget):
     def __init__(self, parent=None):

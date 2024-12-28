@@ -9,11 +9,12 @@ class SortingApp(QMainWindow, Ui_MainWindow):
         # Initializes GUI Variables and Variables
         super().__init__()
         self.sample_size = 480 # 480
-        self.data = self.data_generator(self.sample_size)
+        self.data = {}
         self.setupUi(self)
 
         # Adds Pointer to Gui
-        self.comboBox.addItems(sorting_methods)
+        self.ComboBox.addItems(sorting_methods)
+        self.RandomizeButton.clicked.connect(self.randomize_data)
         self.pushButton.clicked.connect(lambda: self.run_simulation(self.sample_size))
     
     # Generates Dictionary With Unique Values For Each Key
@@ -26,10 +27,14 @@ class SortingApp(QMainWindow, Ui_MainWindow):
             data[i] = value
         return data
     
+    # Passes Randomized Data Dict to Data Variable
+    def randomize_data(self) -> None:
+        self.data = self.data_generator(self.sample_size)
+    
     # Matches Sorting Method and Runs It
-    def run_simulation(self, amount: int):
+    def run_simulation(self, amount: int) -> None:
         # Initiates Start Time & Checks What Option Is Chosen
-        chosen_sort = self.comboBox.currentText()
+        chosen_sort = self.ComboBox.currentText()
         start_time = time.time()
 
         # Runs Selected Sort Function in sorts.py
@@ -44,12 +49,13 @@ class SortingApp(QMainWindow, Ui_MainWindow):
         # Calculates Final Time & Outputs Info About the Run
         elapsed_time = time.time() - start_time
         self.MethodChosen.setText(f"{chosen_sort}")
-        self.time_var.setText(f"TIME: {elapsed_time*100:.4f}s")
+        self.time_var.setText(f"TIME: {elapsed_time*1000:.3f}ms")
         self.sample_var.setText(f"SAMPLE SIZE: {amount}")
         self.iterations_var.setText(f"ITERATIONS: {iterations}")
     
     # Generates Lines Representing The Data We Generated
     def lines_generator(self) -> None:
+        # Would have to "yield" results after each iteration in sorts.py
         raise NotImplementedError
 
 

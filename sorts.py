@@ -13,6 +13,13 @@ def BubbleSort(arr) -> Tuple[dict[int, int], int]:
 
 def SelectionSort(arr) -> Tuple[dict[int, int], int]:
     iterations = 0
+    for i in range(0, len(arr) - 1):
+        min_index = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+        iterations += 1
     return arr, iterations
 
 def InsertionSort(arr) -> Tuple[dict[int, int], int]:
@@ -20,7 +27,6 @@ def InsertionSort(arr) -> Tuple[dict[int, int], int]:
     for i in range(1, len(arr)):
         key = arr[i]
         j = i - 1
-        # print(f"Pass {i}, key={key}, starting array: {arr}")  # --- DEBUG ---
         while j >= 0 and key < arr[j]:
             arr[j + 1] = arr[j]
             j -= 1
@@ -28,8 +34,14 @@ def InsertionSort(arr) -> Tuple[dict[int, int], int]:
         iterations += 1
     return arr, iterations
 
+def Unsorted(arr) -> Tuple[dict[int, int], int]:
+    iterations = 0
+    return arr, iterations
+
 
 sorting_methods : dict[str, Callable[[], Tuple[dict[int, int], int]]]= {
     "Bubble Sort" : BubbleSort,
     "Selection Sort" : SelectionSort,
-    "Insertion Sort" : InsertionSort}
+    "Insertion Sort" : InsertionSort,
+    "Unsorted" : Unsorted
+    }

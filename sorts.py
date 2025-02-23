@@ -34,6 +34,27 @@ def InsertionSort(arr) -> Tuple[dict[int, int], int]:
         iterations += 1
     return arr, iterations
 
+def QuickSort(arr) -> Tuple[dict[int, int], int]:
+    iterations = 0
+    raise NotImplementedError
+    return arr, iterations
+
+def MergeSort(arr) -> Tuple[dict[int, int], int]:
+    iterations = 0
+    raise NotImplementedError
+    return arr, iterations
+
+def StalinSort(arr) -> Tuple[dict[int, int], int]:
+    iterations = 0
+    items = list(arr.items())
+    sorted_items = [items[0]]
+    for key, value in items[1:]:
+        if value >= sorted_items[-1][1]:
+            sorted_items.append((key, value))
+        iterations += 1
+    arr = dict(sorted_items)
+    return arr, iterations
+
 def Unsorted(arr) -> Tuple[dict[int, int], int]:
     iterations = 0
     return arr, iterations
@@ -43,5 +64,8 @@ sorting_methods : dict[str, Callable[[], Tuple[dict[int, int], int]]]= {
     "Bubble Sort" : BubbleSort,
     "Selection Sort" : SelectionSort,
     "Insertion Sort" : InsertionSort,
+    "Quick Sort" : QuickSort,
+    "Merge Sort" : MergeSort,
+    "Stalin Sort" : StalinSort,
     "Unsorted" : Unsorted
     }

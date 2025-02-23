@@ -9,9 +9,9 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         MainWindow.setWindowTitle("Sorting Method Simulator")
-        self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.centralWidget = QtWidgets.QWidget(parent=MainWindow)
+        self.centralWidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralWidget)
         self.gridLayout.setObjectName("gridLayout")
 
         # Font Settings
@@ -20,22 +20,22 @@ class Ui_MainWindow(object):
         font.setBold(False)
 
         # Method Chosen Text
-        self.MethodChosen = QtWidgets.QLabel(parent=self.centralwidget)
-        self.MethodChosen.setFont(font)
-        self.MethodChosen.setObjectName("MethodChosen")
-        self.gridLayout.addWidget(self.MethodChosen, 0, 0, 1, 1)
+        self.method_chosen = QtWidgets.QLabel(parent=self.centralWidget)
+        self.method_chosen.setFont(font)
+        self.method_chosen.setObjectName("MethodChosen")
+        self.gridLayout.addWidget(self.method_chosen, 0, 0, 1, 1)
 
         # Randomize Push Button
-        self.RandomizeButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.RandomizeButton.setObjectName("generatePushButton")
-        self.gridLayout.addWidget(self.RandomizeButton, 0, 2, 1, 1)
+        self.randomizeButton = QtWidgets.QPushButton(parent=self.centralWidget)
+        self.randomizeButton.setObjectName("randomizePushButton")
+        self.gridLayout.addWidget(self.randomizeButton, 0, 2, 1, 1)
 
         # Methods Combo Box
-        self.ComboBox = QtWidgets.QComboBox(parent=self.centralwidget)
-        self.ComboBox.setObjectName("comboBox")
-        self.gridLayout.addWidget(self.ComboBox, 0, 3, 1, 1)
+        self.comboBox = QtWidgets.QComboBox(parent=self.centralWidget)
+        self.comboBox.setObjectName("comboBox")
+        self.gridLayout.addWidget(self.comboBox, 0, 3, 1, 1)
 
-        # # Simulation Visual Frame
+        # Simulation Visual Frame
         # self.frame = QtWidgets.QFrame(parent=self.centralwidget)
         # self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         # self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
@@ -43,12 +43,12 @@ class Ui_MainWindow(object):
         # self.horizontalLayout = QtWidgets.QHBoxLayout(self.frame)
         # self.horizontalLayout.setObjectName("horizontalLayout")
         # self.gridLayout.addWidget(self.frame, 1, 0, 1, 4)
-        self.frame = VisualFrame(parent=self.centralwidget)
+        self.frame = VisualFrame(parent=self.centralWidget)
         self.frame.setObjectName("visual_frame")
         self.gridLayout.addWidget(self.frame, 1, 0, 1, 4)
 
         # Time Elapsed Text
-        self.time_var = QtWidgets.QLabel(parent=self.centralwidget)
+        self.time_var = QtWidgets.QLabel(parent=self.centralWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.time_var.setFont(font)
@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.time_var, 2, 0, 1, 1)
 
         # Sample Size Text
-        self.sample_var = QtWidgets.QLabel(parent=self.centralwidget)
+        self.sample_var = QtWidgets.QLabel(parent=self.centralWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.sample_var.setFont(font)
@@ -64,7 +64,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.sample_var, 2, 1, 1, 1)
 
         # Iterations Count Text
-        self.iterations_var = QtWidgets.QLabel(parent=self.centralwidget)
+        self.iterations_var = QtWidgets.QLabel(parent=self.centralWidget)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.iterations_var.setFont(font)
@@ -72,25 +72,36 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.iterations_var, 2, 2, 1, 1)
 
         # Simulation Push Button
-        self.pushButton = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
+        self.pushButton = QtWidgets.QPushButton(parent=self.centralWidget)
+        self.pushButton.setObjectName("simulatePushButton")
         self.gridLayout.addWidget(self.pushButton, 2, 3, 1, 1)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
+        # Speed Label
+        self.loss_var = QtWidgets.QLabel(parent=self.centralWidget)
+        self.loss_var.setFont(font)
+        self.loss_var.setObjectName("loss_var")
+        self.loss_var.setMaximumHeight(12)
+        self.gridLayout.addWidget(self.loss_var, 3, 0, 1, 1)
+
+        # Status Bar (not used for now)
+        # self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
+        # self.statusbar.setObjectName("statusbar")
+        # MainWindow.setStatusBar(self.statusbar)
+        
+        MainWindow.setCentralWidget(self.centralWidget)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        self.MethodChosen.setText(_translate("MainWindow", "Sorting Method"))
+        self.method_chosen.setText(_translate("MainWindow", "Sorting Method"))
         self.time_var.setText(_translate("MainWindow", "TIME:"))
         self.sample_var.setText(_translate("MainWindow", "SAMPLE SIZE:"))
         self.iterations_var.setText(_translate("MainWindow", "ITERATIONS:"))
         self.pushButton.setText(_translate("MainWindow", "SIMULATE"))
-        self.RandomizeButton.setText(_translate("MainWindow", "RANDOMIZE"))
+        self.randomizeButton.setText(_translate("MainWindow", "RANDOMIZE"))
+        self.loss_var.setText(_translate("MainWindow", "LOSS PERCENTAGE:"))
+
 
 class VisualFrame(QWidget):
     def __init__(self, parent=None):

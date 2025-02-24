@@ -47,26 +47,24 @@ class Ui_MainWindow(object):
         self.frame.setObjectName("visual_frame")
         self.gridLayout.addWidget(self.frame, 1, 0, 1, 4)
 
-        # Time Elapsed Text
-        self.time_var = QtWidgets.QLabel(parent=self.centralWidget)
+        # Updated Font Settings
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.time_var.setFont(font)
-        self.time_var.setObjectName("time_var")
-        self.gridLayout.addWidget(self.time_var, 2, 0, 1, 1)
+
+        # Delay Text
+        self.delay_var = QtWidgets.QLabel(parent=self.centralWidget)
+        self.delay_var.setFont(font)
+        self.delay_var.setObjectName("delay_var")
+        self.gridLayout.addWidget(self.delay_var, 2, 0, 1, 1)
 
         # Sample Size Text
         self.sample_var = QtWidgets.QLabel(parent=self.centralWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
         self.sample_var.setFont(font)
         self.sample_var.setObjectName("sample_var")
         self.gridLayout.addWidget(self.sample_var, 2, 1, 1, 1)
 
         # Iterations Count Text
         self.iterations_var = QtWidgets.QLabel(parent=self.centralWidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
         self.iterations_var.setFont(font)
         self.iterations_var.setObjectName("label")
         self.gridLayout.addWidget(self.iterations_var, 2, 2, 1, 1)
@@ -76,12 +74,37 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName("simulatePushButton")
         self.gridLayout.addWidget(self.pushButton, 2, 3, 1, 1)
 
-        # Speed Label
+        # Slider Size Policy
+        slider_size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Ignored, QtWidgets.QSizePolicy.Policy.Fixed)
+
+        # Size Slider
+        self.amount_slider = QtWidgets.QSlider(parent=self.centralWidget)
+        self.amount_slider.setOrientation(QtCore.Qt.Orientation.Horizontal)
+        self.amount_slider.setSizePolicy(slider_size_policy)
+        self.amount_slider.setObjectName("amount_slider")
+        self.amount_slider.setMinimum(1)
+        self.amount_slider.setMaximum(4096)
+        self.gridLayout.addWidget(self.amount_slider, 3, 1, 1, 1)
+        
+        # Delay Slider
+        self.delay_slider = QtWidgets.QSlider(parent=self.centralWidget)
+        self.delay_slider.setOrientation(QtCore.Qt.Orientation.Horizontal)
+        self.delay_slider.setSizePolicy(slider_size_policy)
+        self.delay_slider.setObjectName("delay_slider")
+        self.gridLayout.addWidget(self.delay_slider, 3, 0, 1, 1)
+
+        # Loss Percentage Label
         self.loss_var = QtWidgets.QLabel(parent=self.centralWidget)
         self.loss_var.setFont(font)
         self.loss_var.setObjectName("loss_var")
         self.loss_var.setMaximumHeight(12)
-        self.gridLayout.addWidget(self.loss_var, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.loss_var, 3, 2, 1, 1)
+
+        # Time Elapsed Text
+        self.time_var = QtWidgets.QLabel(parent=self.centralWidget)
+        self.time_var.setFont(font)
+        self.time_var.setObjectName("time_var")
+        self.gridLayout.addWidget(self.time_var, 3, 3, 1, 1)
 
         # Status Bar (not used for now)
         # self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -95,12 +118,13 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         self.method_chosen.setText(_translate("MainWindow", "Sorting Method"))
-        self.time_var.setText(_translate("MainWindow", "TIME:"))
+        self.time_var.setText(_translate("MainWindow", " TIME:"))
         self.sample_var.setText(_translate("MainWindow", "SAMPLE SIZE:"))
         self.iterations_var.setText(_translate("MainWindow", "ITERATIONS:"))
         self.pushButton.setText(_translate("MainWindow", "SIMULATE"))
         self.randomizeButton.setText(_translate("MainWindow", "RANDOMIZE"))
         self.loss_var.setText(_translate("MainWindow", "LOSS PERCENTAGE:"))
+        self.delay_var.setText(_translate("MainWindow", "DELAY:"))
 
 
 class VisualFrame(QWidget):

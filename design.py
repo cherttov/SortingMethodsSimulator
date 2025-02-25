@@ -91,6 +91,8 @@ class Ui_MainWindow(object):
         self.delay_slider.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.delay_slider.setSizePolicy(slider_size_policy)
         self.delay_slider.setObjectName("delay_slider")
+        self.delay_slider.setMinimum(0)
+        self.delay_slider.setMaximum(2)
         self.gridLayout.addWidget(self.delay_slider, 3, 0, 1, 1)
 
         # Loss Percentage Label

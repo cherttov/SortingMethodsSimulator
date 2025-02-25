@@ -10,14 +10,19 @@ class SortingApp(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.data = {}
-        self.sample_size = 1 # changing this doesn't affect the code whatsoever
+        self.sample_size : int = 1 # changing this doesn't affect the code whatsoever
+        self.delay_time : int = 0
         # Adds Pointer to Gui
         self.comboBox.addItems(sorting_methods)
         self.randomizeButton.clicked.connect(lambda: self.randomize_data(self.sample_size))
         self.pushButton.clicked.connect(lambda: self.run_simulation(self.sample_size))
-        # Connect Slider With Sample Var
+        # Connects Amount Slider With Sample Var
         self.sample_var.setText(f"SAMPLE SIZE: {self.sample_size}")
         self.amount_slider.valueChanged.connect(self.update_sample_var)
+        # Connects Delay Slider With Delay Var
+        self.delay_var.setText(f"DELAY: {self.delay_time}ms")
+        self.delay_slider.valueChanged.connect(self.update_delay_var)
+
     
     # Generates Dictionary With Unique Values For Each Key
     def data_generator(self, amount: int) -> dict[int, int]:
@@ -44,14 +49,14 @@ class SortingApp(QMainWindow, Ui_MainWindow):
             sort = sorting_methods.get(chosen_sort, None)
             data_copy = self.data.copy()
             if sort is not None:
-                sorted_dict, iterations = sort(data_copy)
+                sorted_dict, iterations = sort(data_copy, self.delay_time)
                 self.frame.set_data(sorted_dict)
             else:
                 print("An error has occured: Sorting method not found.")
             # Calculates Final Time
             elapsed_time = time.time() - start_time
             # Calculates Loss Percentage
-            loss_percentage = 100 - len(sorted_dict.keys()) / (amount / 100)
+            loss_percentage = 100 - len(sorted_dict.keys()) / (len(self.data) / 100)
             # Outputs Info About The Run
             self.method_chosen.setText(f"{chosen_sort}")
             self.time_var.setText(f" TIME: {elapsed_time*1000:.3f}ms")
@@ -64,6 +69,11 @@ class SortingApp(QMainWindow, Ui_MainWindow):
     def update_sample_var(self, value: int):
         self.sample_size = value
         self.sample_var.setText(f"SAMPLE SIZE: {value}")
+
+    # Update Delay Time Label On Slider Movement
+    def update_delay_var(self, value: int):
+        self.delay_time = value
+        self.delay_var.setText(f"DELAY: {value}ms")
     
     # Generates Lines Representing The Data We Generated
     def lines_generator(self) -> None:

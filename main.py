@@ -49,7 +49,11 @@ class SortingApp(QMainWindow, Ui_MainWindow):
             sort = sorting_methods.get(chosen_sort, None)
             data_copy = self.data.copy()
             if sort is not None:
-                sorted_dict, iterations = sort(data_copy, self.delay_time)
+                #sorted_dict, iterations = sort(data_copy, self.delay_time)
+                for sorted_dict, iterations in sort(data_copy, self.delay_time):
+                    self.frame.set_data(sorted_dict)
+                    self.iterations_var.setText(f"ITERATIONS: {iterations}")
+                    QApplication.processEvents()
                 self.frame.set_data(sorted_dict)
             else:
                 print("An error has occured: Sorting method not found.")

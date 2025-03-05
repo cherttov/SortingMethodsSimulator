@@ -2,31 +2,35 @@ from typing import Callable, Tuple
 import time
 
 
-def BubbleSort(arr, delay) -> Tuple[dict[int, int], int]:
+def BubbleSort(arr, delay):# -> Tuple[dict[int, int], int]:
     iterations = 0
     for n in range(len(arr) - 1, 0, -1): 
         for i in range(n):
             if arr[i] > arr[i+1]:
                 arr[i], arr[i+1] = arr[i+1], arr[i]
-        time.sleep(delay/1000)
+                yield arr, iterations
+        # time.sleep(delay/1000)
         iterations += 1
-    return arr, iterations
+        yield arr, iterations
+    #return arr, iterations
+    yield arr, iterations
 
 
-def SelectionSort(arr, delay) -> Tuple[dict[int, int], int]:
+def SelectionSort(arr, delay):
     iterations = 0
     for i in range(0, len(arr) - 1):
         min_index = i
         for j in range(i + 1, len(arr)):
             if arr[j] < arr[min_index]:
                 min_index = j
+                yield arr, iterations
         arr[i], arr[min_index] = arr[min_index], arr[i]
-        time.sleep(delay/1000)
         iterations += 1
-    return arr, iterations
+        yield arr, iterations
+    yield arr, iterations
 
 
-def InsertionSort(arr, delay) -> Tuple[dict[int, int], int]:
+def InsertionSort(arr, delay):
     iterations = 0
     for i in range(1, len(arr)):
         key = arr[i]
@@ -34,13 +38,14 @@ def InsertionSort(arr, delay) -> Tuple[dict[int, int], int]:
         while j >= 0 and key < arr[j]:
             arr[j + 1] = arr[j]
             j -= 1
+            yield arr, iterations
         arr[j + 1] = key
-        time.sleep(delay/1000)
         iterations += 1
-    return arr, iterations
+        yield arr, iterations
+    yield arr, iterations
 
 
-def QuickSort(arr, delay) -> Tuple[dict[int, int], int]:
+def QuickSort(arr, delay): # <-- !!!
     iterations = 0
     def partition(low, high):
         nonlocal iterations
@@ -51,7 +56,6 @@ def QuickSort(arr, delay) -> Tuple[dict[int, int], int]:
                 i += 1
                 arr[i], arr[j] = arr[j], arr[i]
         arr[i+1], arr[high] = arr[high], arr[i+1]
-        time.sleep(delay/1000)
         iterations += 1
         return i + 1
     def quick_sort_recursive(low, high):
@@ -62,7 +66,7 @@ def QuickSort(arr, delay) -> Tuple[dict[int, int], int]:
             quick_sort_recursive(low, pivot_index-1)
             quick_sort_recursive(pivot_index+1, high)
     quick_sort_recursive(0, len(arr)-1)
-    return arr, iterations
+    yield arr, iterations
 
 
 def MergeSort(arr, delay) -> Tuple[dict[int, int], int]:
@@ -71,22 +75,21 @@ def MergeSort(arr, delay) -> Tuple[dict[int, int], int]:
     return arr, iterations
 
 
-def StalinSort(arr, delay) -> Tuple[dict[int, int], int]:
+def StalinSort(arr, delay): # <-- !!!
     iterations = 0
     items = list(arr.items())
     sorted_items = [items[0]]
     for key, value in items[1:]:
         if value >= sorted_items[-1][1]:
             sorted_items.append((key, value))
-        time.sleep(delay/1000)
         iterations += 1
     arr = dict(sorted_items)
-    return arr, iterations
+    yield arr, iterations
 
 
-def Unsorted(arr, delay) -> Tuple[dict[int, int], int]:
+def Unsorted(arr, delay):
     iterations = 0
-    return arr, iterations
+    yield arr, iterations
 
 
 sorting_methods : dict[str, Callable[[], Tuple[dict[int, int], int]]]= {

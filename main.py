@@ -3,8 +3,11 @@ import time
 from sorts import sorting_methods # SORTING
 from design import Ui_MainWindow # DESIGN
 from PyQt6.QtWidgets import QApplication, QMainWindow
+import threading
+
 
 class SortingApp(QMainWindow, Ui_MainWindow):
+    # Constructor
     def __init__(self):
         # Initializes GUI Variables and Variables
         super().__init__()
@@ -42,30 +45,22 @@ class SortingApp(QMainWindow, Ui_MainWindow):
     # Matches Sorting Method and Runs It
     def run_simulation(self, amount: int) -> None:
         if len(self.data) > 0:
-            # Initiates Start Time & Checks What Option Is Chosen
+            # Checks What Option Is Chosen
             chosen_sort = self.comboBox.currentText()
-            start_time = time.time()
-            # Runs Selected Sort Function in sorts.py
+            self.method_chosen.setText(f"{chosen_sort}")
+            # Selects Chosen Sorting Function & Copies Data
             sort = sorting_methods.get(chosen_sort, None)
             data_copy = self.data.copy()
+            # Runs The Sorting Simulation
             if sort is not None:
-                #sorted_dict, iterations = sort(data_copy, self.delay_time)
-                for sorted_dict, iterations in sort(data_copy, self.delay_time):
-                    self.frame.set_data(sorted_dict)
-                    self.iterations_var.setText(f"ITERATIONS: {iterations}")
-                    QApplication.processEvents()
-                self.frame.set_data(sorted_dict)
+                # Initiates Start Time
+                start_time = time.time()
+                # Sorting Process & Visuals Updating
+                thread = threading.Thread(target=self.update_sorting, args=(sort, data_copy, start_time))
+                thread.start()
+                #self.update_sorting(sort, data_copy, start_time)
             else:
                 print("An error has occured: Sorting method not found.")
-            # Calculates Final Time
-            elapsed_time = time.time() - start_time
-            # Calculates Loss Percentage
-            loss_percentage = 100 - len(sorted_dict.keys()) / (len(self.data) / 100)
-            # Outputs Info About The Run
-            self.method_chosen.setText(f"{chosen_sort}")
-            self.time_var.setText(f" TIME: {elapsed_time*1000:.3f}ms")
-            self.iterations_var.setText(f"ITERATIONS: {iterations}")
-            self.loss_var.setText(f"LOSS PERCENTAGE: {loss_percentage:.1f}%")
         else:
             print("Error: Data Are Empty") # <-- !!!
     
@@ -80,9 +75,27 @@ class SortingApp(QMainWindow, Ui_MainWindow):
         self.delay_var.setText(f"DELAY: {value}ms")
     
     # Generates Lines Representing The Data We Generated
-    def lines_generator(self) -> None:
-        # Would have to "yield" results after each iteration in sorts.py
-        raise NotImplementedError
+    def update_sorting(self, sort, data, start_time) -> None:
+        # Have to break sorting function on simulation button call
+        # Have to speed up visualisation (maybe by frequency update)
+        # Have to fix not working sorts
+        # I might need to add a 2nd thread to do some of this stuff
+
+        # Run Sorting Simulation & Update Iterations/Elapsed Time Var
+        for sorted_dict, iterations in sort(data, self.delay_time):
+            # Update Frame Painter
+            self.frame.set_data(sorted_dict)
+            QApplication.processEvents()
+            # Updates Iterations
+            self.iterations_var.setText(f"ITERATIONS: {iterations}")
+            # Calculates Final Time
+            elapsed_time = time.time() - start_time
+            self.time_var.setText(f" TIME: {elapsed_time*1000:.3f}ms")
+        # Output Final Frame Paint
+        self.frame.set_data(sorted_dict)
+        # Calculates & Displays Loss Percentage
+        loss_percentage = 100 - len(sorted_dict.keys()) / (len(self.data) / 100)
+        self.loss_var.setText(f"LOSS PERCENTAGE: {loss_percentage:.1f}%")
 
 
 if __name__=="__main__":

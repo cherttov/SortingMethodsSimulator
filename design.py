@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         self.amount_slider.setSizePolicy(slider_size_policy)
         self.amount_slider.setObjectName("amount_slider")
         self.amount_slider.setMinimum(1)
-        self.amount_slider.setMaximum(480) # 4096
+        self.amount_slider.setMaximum(4096) # 4096
         self.gridLayout.addWidget(self.amount_slider, 3, 1, 1, 1)
         
         # Delay Slider
